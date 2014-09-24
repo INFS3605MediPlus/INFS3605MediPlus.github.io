@@ -10,24 +10,21 @@
   <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
   <link rel="stylesheet" href="css/styles.css">
   <script type="text/javascript" src="http://www.parsecdn.com/js/parse-1.2.19.min.js"></script>
+  <script type="text/javascript" src="js/commonForAll.js"></script>
   <script type="text/javascript" src="js/index.js"></script>
   <script src="http://cdnjs.cloudflare.com/ajax/libs/moment.js/2.8.2/moment.min.js"></script>
   <script src="http://cdnjs.cloudflare.com/ajax/libs/fullcalendar/2.1.0/fullcalendar.min.js"></script>
   <link rel="stylesheet" href="http://cdnjs.cloudflare.com/ajax/libs/fullcalendar/2.1.1/fullcalendar.min.css">
+  <link rel="icon" type="image/png" href="assets/favicon.png">
   
 </head>
 
 <body>
     <div id="cssmenu">
         <ul class="container nav">
-            <li class='active' id="home-link"><a href="index.html">Home</a></li>
-            <li><a href="#">Link 2</a></li>
-            <li><a href="#">Link 3</a></li>
-            <li class='last'><a href="#">Link 4</a></li>
+            <li id="home-link"><a href="index.html">Home</a></li>
 
-            <li class="dropdown align-right" id="user-dropdown">
-              
-            </li>
+            <li class="dropdown align-right" id="user-dropdown"></li>
         </ul>
     </div>
     
@@ -44,6 +41,8 @@
         </div>
     </div>
     
+    <div class="container" id="patient-search-section"></div>
+
     <div id='calendar'></div>
     
     <div class="container">

@@ -1,19 +1,33 @@
-window.onload = function(){ 
-    Parse.initialize("uMG2e5uKOVVE6hrAVbBSSRXuwGRa6BD1lcvN9tm3", "ubjYQ1u3UnPH6g1bk6ayIcNR6sj6MYO47qIxrdPR");
+var currentUser = Parse.User.current();
+
+indexonload = function(){
+
+    $("#home-link").addClass("active");
     
-    var currentUser = Parse.User.current();
     if (currentUser) {
         // YOU ARE LOGGED IN
         $("#login-form").html("<h1>Welcome to MediSync!<br>Your cloud based patient management system!</h1>");
-        // do stuff with the user
-
-        $("#user-dropdown").html("<a href='#' data-toggle='dropdown' class='dropdown-toggle'>" + currentUser.get('Staff_First_Name') + " <b class='caret'></b></a><ul class='dropdown-menu'><li><a href='#'>Dropdown 1</a></li><li><a href='#'>Dropdown 2</a></li><li><a href='#' id='logoutButton'>Log Out</a></li></ul>");
-        document.getElementById("logoutButton").onclick = logout;
 
         $('#calendar').fullCalendar({
             // put your options and callbacks here
             weekends: false
-        })
+        });
+        
+        var Appointment = Parse.Object.extend("Appointment");
+        var query = new Parse.Query(Appointment);
+        // filter query for this particular user
+        query.find({
+            success: function(results){
+                for (var i=0; i<results.length; i++){
+                    var object = results[i];
+                    
+                    // put object into $('#calendar')
+                }          
+            },
+            error: function(error){
+                alert("No Calendar Entries Found");
+            }
+        });
 
     } else {
         // YOU ARE NOT LOGGED IN
@@ -34,6 +48,10 @@ window.onload = function(){
     }
      
     function login() {
+        // change login text to http://www.fertllawn.com/image/loader.gif
+        $('#log_in_button').addClass('login-loading');
+        document.getElementById('log_in_button').value = '';
+
         var email = document.getElementById("username_input").value;
         var pw = document.getElementById("password_input").value;
         Parse.User.logIn(email, pw, {
@@ -44,15 +62,11 @@ window.onload = function(){
           error: function(user, error) {
             // The login failed. Check error to see why.
             alert("Your credentials are incorrect!");
+            $('#log_in_button').removeClass('login-loading');
+            document.getElementById('log_in_button').value = 'Login';
           }
         });
     }
-    
-    function logout() {
-        if (confirm('Are you sure you want to log out?')){
-           Parse.User.logOut();
-           location.reload();
-        }
-        return false;
-    }
 };
+
+addLoadEvent(indexonload);

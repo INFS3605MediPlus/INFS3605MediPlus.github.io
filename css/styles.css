@@ -3,9 +3,13 @@
 @import url(http://fonts.googleapis.com/css?family=Open+Sans:700);
 
 body {
-    background: #eee;
+    background-image: url("../assets/gplaypattern.png");
     text-align: center;
     padding: 0 25px;
+}
+
+#im-div {
+    text-align: left;
 }
 
 #login-section {
@@ -15,12 +19,37 @@ body {
     background-size: cover;
 }
 
+#patient-search-section {
+    background: linear-gradient(to bottom, #7db9e8 0%, #2989d8 100%);
+    width: 100%;
+    border: 1px solid;
+    border-radius: 25px;
+    margin: 20px auto 50px auto;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+#searchPatientHeading{
+  color:blue;
+  margin-right:24.3%;
+}
+
+#searchResultsPatientHeading{
+  color:blue;
+  margin-right:24.3%;
+}
+
+#searchPatientButton{
+  margin-left:34.2%;
+}
+
 #logo {
     margin: 20px;
 }
 
 #logo img {
   border-radius: 20%;
+  width: 75%
 }
 
 .login{
@@ -94,6 +123,17 @@ body {
 
 #login-form {
   color: crimson;
+}
+
+#login-form h1 {
+  font-size: 3rem;
+}
+
+.login input[type=button].login-loading {
+  background-image: url("http://www.fertllawn.com/image/loader.gif");
+  background-size: 10%;
+  background-repeat: no-repeat;
+  background-position: center;
 }
 
 #cssmenu {
@@ -226,3 +266,4 @@ body {
     display: none;
   }
 }
+
