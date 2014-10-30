@@ -351,26 +351,91 @@ patientonload = function(){
     function generatePDF() {
         $("#generate-receipt").attr('disabled','disabled');
         // get all appointment and appointment tests info here
-        
-        
-        
-        var doc = new jsPDF();
-       
-        var elementHandler = {
-            '#generate-receipt': function (element, renderer) {
-                    return true;
-            }
-        };
-        var source = $('#forPDF').html();
-        doc.fromHTML(
-            source,
-            15,
-            15,
-            {
-              'width': 180,'elementHandlers': elementHandler
-            });
 
-        doc.output("dataurlnewwindow");
+        var Patient = Parse.Object.extend("Patient");  
+        var patient_query = new Parse.Query(Patient);
+        patient_query.equalTo("objectId", patientID);
+        patient_query.find({
+            success: function(results){
+                // do stuff with patient
+                var pat = results[0];
+                $('#forPDF').append(pat.get('First_Name') + ' ' + pat.get('Last_Name'));
+                var Appointment = Parse.Object.extend("Appointment");  
+                var appt_query = new Parse.Query(Appointment);                
+                appt_query.equalTo("Paid", false)
+                appt_query.equalTo("Patient_ID", pat);
+                //var today = Date.now();
+                //appt_query.lessThan("Appointment_Date", today);
+                appt_query.include("Specialist_ID");
+                appt_query.include("Clinical_Detail_ID");
+                appt_query.include("Appointment_Type");
+                appt_query.descending("Appointment_Date");                
+                appt_query.find({
+                    success: function(appt_results){
+                        for (var i=0; i<appt_results.length; i++){
+
+                            var object = appt_results[i];
+                            var specialist = object.get("Specialist_ID").get("Staff_First_Name") + ' ' + object.get("Specialist_ID").get("Staff_Last_Name");
+                            var typeOfAppointment = object.get("Appointment_Type").get('Appointment_Type');                            
+
+                            $("#appt-pdf-results-table").append("<tr><td>" + i + "</td><td>" + object.get('Appointment_Date') + "</td><td>" + typeOfAppointment + "</td><td>" + specialist + "</td><tr>");                  
+
+                            var Appointment_Tests = Parse.Object.extend("Appointment_Tests");
+                            var appt_test_query = new Parse.Query(Appointment_Tests); 
+                            appt_test_query.equalTo("Appointment_ID", object.id);
+                            appt_test_query.include("Test_ID");
+                            appt_test_query.find({
+                                success: function(appt_tests_results){
+                                   for (var j=0; j<appt_tests_results.length; j++){
+                                        
+                                        var test_object = appt_tests_results[j];
+                                        var test_name = test_object.get("Test_ID").get("Test_Type");
+                                        alert(test_name);
+
+                                        $("#appt-test-pdf-results-table").append("<tr><td>" + j + "</td><td>" + test_name + "</td><tr>");
+
+                                    }
+                                },
+                                error: function(error){
+                                    alert(error.message);
+                               }
+                            });  
+
+                        }
+                        
+
+                        var doc = new jsPDF('p','pt','a4');
+           
+                        var elementHandler = {
+                            '#generate-receipt': function (element, renderer) {
+                                    return true;
+                            }
+                        };
+                                var source = $('#forPDF').html();
+                                var source1 = 
+                                //doc.fromHTML(source, 15, 15,
+                                    //{
+                                      //'width': 180,'elementHandlers': elementHandler
+                                    //});
+                                doc.addHTML(document.body,function() {
+                                    doc.output('dataurlnewwindow');
+                                    //$('.preview-pane').attr('src', string);
+                                });
+
+                                //doc.output("dataurlnewwindow");
+
+                    },
+                    error: function(error){
+                        alert(error.message);
+                    }
+                });
+
+                    },
+                    error: function(error){
+                        alert(error.message);
+                    }
+                });              
+        
     }
 
     document.getElementById("generate-receipt").onclick = generatePDF;
