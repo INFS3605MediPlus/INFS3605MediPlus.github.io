@@ -6,12 +6,31 @@
   <meta name="description" content="My Parse App">
   <meta name="viewport" content="width=device-width">
   <script type="text/javascript" src="http://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+  <link rel="stylesheet" href="http://code.jquery.com/ui/1.11.2/themes/smoothness/jquery-ui.css">
+  <script src="http://code.jquery.com/ui/1.11.2/jquery-ui.js"></script>
+  <script type="text/javascript" src="http://cdnjs.cloudflare.com/ajax/libs/waypoints/2.0.5/waypoints.min.js"></script>
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
   <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+  <script type="text/javascript" src="https://www.google.com/jsapi?autoload={'modules':[{'name':'visualization','version':'1','packages':['corechart']}]}"></script>
   <link rel="stylesheet" href="css/styles.css">
+  <link rel="stylesheet" href="css/searchPatientTEST.css">
+  <link rel="stylesheet" href="css/addPatient.css">
+  <link rel="stylesheet" href="css/bootstrap-datetimepicker.min.css">
   <script type="text/javascript" src="http://www.parsecdn.com/js/parse-1.2.19.min.js"></script>
   <script type="text/javascript" src="js/commonForAll.js"></script>
   <script type="text/javascript" src="js/patient.js"></script>
+  <script type="text/javascript" src="js/patientForm.js"></script>
+  <script type="text/javascript" src="js/userForm.js"></script>
+  <script type="text/javascript" src="js/appointmentForm.js"></script>
+  <script src="http://cdnjs.cloudflare.com/ajax/libs/moment.js/2.8.2/moment.min.js"></script>
+  <script type="text/javascript" src="js/bootstrap-datetimepicker.js"></script>
+  <script type="text/javascript" src="js/daterangepicker.js"></script>
+    <script type="text/javascript" src="js/jspdf.js"></script>
+    <script type="text/javascript" src="js/jspdf.plugin.from_html.js"></script>
+    <script type="text/javascript" src="js/jspdf.plugin.split_text_to_size.js"></script>
+    <script type="text/javascript" src="js/jspdf.plugin.standard_fonts_metrics.js"></script>
+  <link rel="stylesheet" type="text/css" href="css/daterangepicker.css" />
+  
   <link rel="icon" type="image/png" href="assets/favicon.png">
   
 </head>
@@ -19,13 +38,118 @@
 <body>
     <div id="cssmenu">
         <ul class="container nav">
-            <li id="home-link"><a href="index.html">Home</a></li>
+            <li id="home-link"><a href="index.html" class='header-link' data-toggle='tooltip' data-placement='bottom' title='Home!'><span class='glyphicon glyphicon-home'></span> Home</a></li>
 
             <li class="dropdown align-right" id="user-dropdown"></li>
         </ul>
     </div>
     
     <div class="container" id="patient-search-section"></div>
+
+    <p id='patient-name'></p>
+
+    <table class="table table-bordered" id='patient-admin-details'>
+      <tbody>
+        <tr class="active">
+          <td>Name:</td>
+          <td id='patient-result'></td>
+          <td>Contact Number:</td>
+          <td id='number-result'></td>
+        </tr>
+        <tr class="active">
+          <td>D.O.B.:</td>
+          <td id='dob-result'></td>
+          <td>Emergency Contact Number:</td>
+          <td id='emerg-result'></td>
+        </tr>
+        <tr class="active">
+          <td>Address:</td>
+          <td id='address-result'></td>
+          <td>Medicare Number:</td>
+          <td id='medi-result'></td>
+        </tr>
+      </tbody>
+    </table>
+
+    <ul class="nav nav-tabs nav-justified" role="tablist" id='tablist'>
+      <li class="active"><a data-toggle="tab" href="#red"><span class='glyphicon glyphicon-user'></span> Admin Details</a></li>
+      <li><a data-toggle="tab" href="#orange"><span class='glyphicon glyphicon-th-list'></span> Appointment Details</a></li>
+      <li><a data-toggle="tab" href="#yellow"><span class='glyphicon glyphicon-usd'></span> Payment</a></li>
+    </ul>
+
+    <div class="tab-content">
+      <div class="tab-pane active" id="red">
+          <h1>Admin Details</h1>
+          <table class="table table-bordered" id='referring-gp-details'>
+              <tbody>
+                <tr class="active">
+                  <td>Referring GP Name:</td>
+                  <td id='gp-name-result'></td>
+                  <td>Letter from GP:</td>
+                  <td id='gp-letter-result'></td>
+                </tr>
+              </tbody>
+            </table>
+          <div id="chart_div" class='charts'></div>
+          <div id="chart_div2" class='charts'></div>
+      </div>
+      <div class="tab-pane" id="orange">
+          <h1>Appointment Details</h1>
+          <p>Search by Date: <input id='searchDate' name='daterange' placeholder='Select dates to query' class='form-control'></p>
+          <table class="table table-bordered table-hover">
+              <thead>
+                <tr>
+                  <th>#</th>
+                  <th>Date/Time</th>
+                  <th>Type of Appointment</th>
+                  <th>Specialist</th>
+                  <th>Notes</th>
+                </tr>
+              </thead>
+              <tbody id="appt-results-table">
+              </tbody>
+            </table>
+        </table>
+      </div>
+      <div class="tab-pane" id="yellow">
+          <h1>Payment and Billing Section</h1>
+            <h3>Appointments not paid for</h3>
+              <div>What appointments is the patient paying for: </div>
+              <form id='payment-appointment-info'></form>
+          <form class="form-horizontal" role="form" id='payment-form'>
+            <h3>Payment Due</h3>
+            <div class="form-group">
+                <label for="disabledCostInput" class="col-sm-2 control-label">Payment Due</label>
+                <div class="col-sm-10">
+                    <input class="form-control" id="disabledCostInput" type="text" value="0" disabled>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="dropdownMenu1" class="col-sm-2 control-label">Payment Type</label>
+                <div class="col-sm-2">
+                    <select class="form-control" id='payment-type-select'>
+                      <option>Cash</option>
+                      <option>Eftpos</option>
+                      <option>Cheque</option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-group">
+              <div class="col-sm-offset-2 col-sm-10">
+                <button type="button" class="btn btn-success btn-lg btn-block" id='record-payment'><span class='glyphicon glyphicon-check'></span> Record Payment</button>
+                <button type="button" class="btn btn-default btn-lg btn-block" id='generate-receipt'><span class='glyphicon glyphicon-list-alt'></span> Generate Current Invoice</button>
+              </div>
+            </div>
+          </form>
+      </div>
+    </div>
+
+
+    <div id='forPDF' style='display: none'>
+        <h1>Payment and Billing Section</h1>
+    </div>
+
+
 
 </body>
 
