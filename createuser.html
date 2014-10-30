@@ -1,10 +1,9 @@
-                                                                  <!doctype html>
+<!doctype html>
 <head>
   <meta charset="utf-8">
 
-  <title>MediSync App: Search</title>
+  <title>MediSync App: Creating a user</title>
   <meta name="description" content="My Parse App">
-  <meta name="viewport" content="width=device-width">
   <script type="text/javascript" src="http://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
   <link rel="stylesheet" href="http://code.jquery.com/ui/1.11.2/themes/smoothness/jquery-ui.css">
   <script src="http://code.jquery.com/ui/1.11.2/jquery-ui.js"></script>
@@ -16,12 +15,11 @@
   <link rel="stylesheet" href="css/addPatient.css">
   <script type="text/javascript" src="http://www.parsecdn.com/js/parse-1.2.19.min.js"></script>
   <script type="text/javascript" src="js/commonForAll.js"></script>
-  <script type="text/javascript" src="js/search.js"></script>
+  <script type="text/javascript" src="js/createuser.js"></script>
   <script type="text/javascript" src="js/patientForm.js"></script>
   <script type="text/javascript" src="js/userForm.js"></script>
   <script type="text/javascript" src="js/appointmentForm.js"></script>
   <link rel="icon" type="image/png" href="assets/favicon.png">
-  
 </head>
 
 <body>
@@ -35,21 +33,22 @@
     
     <div class="container" id="patient-search-section"></div>
 
-    <h2 id='searchResultsPatientHeading'>Search Results</h2>
-    
-    <table class="table table-bordered table-hover">
-          <thead>
-            <tr>
-              <th>#</th>
-              <th>First Name</th>
-              <th>Last Name</th>
-              <th>Medicare Number</th>
-            </tr>
-          </thead>
-          <tbody id="search-results-table">
-          </tbody>
-        </table>
-    </table>
+
+    <div id="welcome">
+        <h2 style='padding: 0 0 0 90px;'>Create Account</h2>
+        <form name='signUpForm'>
+            First name: <input type='text' name='firstname'>
+            Last name: <input type='text' name='lastname'>
+            <br>
+            Email: <input type='text' name='email'>
+            <br>
+            Password: <input type='password' name='pwd'>
+            Confirm Password: <input type='password' name='confirmpwd'>
+            <p>
+                <input id='sign_up_button' class='button' name='signup' type='button' value='Sign-Up' />
+            </p>
+        </form>
+    </div>
 
 </body>
 

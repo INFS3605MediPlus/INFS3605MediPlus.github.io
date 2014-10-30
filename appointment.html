@@ -6,12 +6,24 @@
   <meta name="description" content="My Parse App">
   <meta name="viewport" content="width=device-width">
   <script type="text/javascript" src="http://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+  <link rel="stylesheet" href="http://code.jquery.com/ui/1.11.2/themes/smoothness/jquery-ui.css">
+  <script src="http://code.jquery.com/ui/1.11.2/jquery-ui.js"></script>
+  <script type="text/javascript" src="http://cdnjs.cloudflare.com/ajax/libs/waypoints/2.0.5/waypoints.min.js"></script>
+  <script type="text/javascript" src="js/bootstrap-wysiwyg.js"></script>
+  <script type="text/javascript" src="js/jquery.hotkeys.js"></script>
+  <link href="http://netdna.bootstrapcdn.com/twitter-bootstrap/2.3.1/css/bootstrap-combined.no-icons.min.css" rel="stylesheet">
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
+  <link href="http://netdna.bootstrapcdn.com/font-awesome/3.0.2/css/font-awesome.css" rel="stylesheet">
   <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
   <link rel="stylesheet" href="css/styles.css">
+  <link rel="stylesheet" href="css/searchPatientTEST.css">
+  <link rel="stylesheet" href="css/addPatient.css">
   <script type="text/javascript" src="http://www.parsecdn.com/js/parse-1.2.19.min.js"></script>
   <script type="text/javascript" src="js/commonForAll.js"></script>
   <script type="text/javascript" src="js/appointment.js"></script>
+  <script type="text/javascript" src="js/patientForm.js"></script>
+  <script type="text/javascript" src="js/userForm.js"></script>
+  <script type="text/javascript" src="js/appointmentForm.js"></script>
   <link rel="icon" type="image/png" href="assets/favicon.png">
   
 </head>
@@ -19,13 +31,190 @@
 <body>
     <div id="cssmenu">
         <ul class="container nav">
-            <li id="home-link"><a href="index.html">Home</a></li>
+            <li id="home-link"><a href="index.html" class='header-link' data-toggle='tooltip' data-placement='bottom' title='Home!'><span class='glyphicon glyphicon-home'></span> Home</a></li>
 
             <li class="dropdown align-right" id="user-dropdown"></li>
         </ul>
     </div>
     
     <div class="container" id="patient-search-section"></div>
+    
+    <p id='patient-name'>Appointment for: Loading...</p>
+    <p id='apptdate-result'></p><br>
+
+    <ul class="nav nav-tabs nav-justified" role="tablist">
+      <li class="active"><a data-toggle="tab" href="#red"><span class='glyphicon glyphicon-edit'></span> Appointment Notes</a></li>
+      <li><a data-toggle="tab" href="#orange"><span class='glyphicon glyphicon-list-alt'></span> Clinical Measurements Form</a></li>
+      <li><a data-toggle="tab" href="#yellow"><span class='glyphicon glyphicon-file'></span> Documents</a></li>
+      <li><a data-toggle="tab" href="#blue"><span class='glyphicon glyphicon-check'></span> Tests Performed</a></li>
+    </ul>
+
+    <div id='details' class="tab-content">
+      <div class="tab-pane active" id="red">
+          <h1>Notes</h1>
+          
+          <div class="btn-toolbar" data-role="editor-toolbar" data-target="#editor">
+              <div class="btn-group">
+                <a class="btn dropdown-toggle" data-toggle="dropdown" title="Font"><i class="icon-font"></i><b class="caret"></b></a>
+                  <ul class="dropdown-menu">
+                  </ul>
+                </div>
+              <div class="btn-group">
+                <a class="btn dropdown-toggle" data-toggle="dropdown" title="Font Size"><i class="icon-text-height"></i>&nbsp;<b class="caret"></b></a>
+                  <ul class="dropdown-menu">
+                  <li><a data-edit="fontSize 5"><font size="5">Huge</font></a></li>
+                  <li><a data-edit="fontSize 3"><font size="3">Normal</font></a></li>
+                  <li><a data-edit="fontSize 1"><font size="1">Small</font></a></li>
+                  </ul>
+              </div>
+              <div class="btn-group">
+                <a class="btn" data-edit="bold" title="Bold (Ctrl/Cmd+B)"><i class="icon-bold"></i></a>
+                <a class="btn" data-edit="italic" title="Italic (Ctrl/Cmd+I)"><i class="icon-italic"></i></a>
+                <a class="btn" data-edit="strikethrough" title="Strikethrough"><i class="icon-strikethrough"></i></a>
+                <a class="btn" data-edit="underline" title="Underline (Ctrl/Cmd+U)"><i class="icon-underline"></i></a>
+              </div>
+              <div class="btn-group">
+                <a class="btn" data-edit="insertunorderedlist" title="Bullet list"><i class="icon-list-ul"></i></a>
+                <a class="btn" data-edit="insertorderedlist" title="Number list"><i class="icon-list-ol"></i></a>
+                <a class="btn" data-edit="outdent" title="Reduce indent (Shift+Tab)"><i class="icon-indent-left"></i></a>
+                <a class="btn" data-edit="indent" title="Indent (Tab)"><i class="icon-indent-right"></i></a>
+              </div>
+              <div class="btn-group">
+                <a class="btn" data-edit="justifyleft" title="Align Left (Ctrl/Cmd+L)"><i class="icon-align-left"></i></a>
+                <a class="btn" data-edit="justifycenter" title="Center (Ctrl/Cmd+E)"><i class="icon-align-center"></i></a>
+                <a class="btn" data-edit="justifyright" title="Align Right (Ctrl/Cmd+R)"><i class="icon-align-right"></i></a>
+                <a class="btn" data-edit="justifyfull" title="Justify (Ctrl/Cmd+J)"><i class="icon-align-justify"></i></a>
+              </div>
+              <div class="btn-group">
+                  <a class="btn dropdown-toggle" data-toggle="dropdown" title="Hyperlink"><i class="icon-link"></i></a>
+                    <div class="dropdown-menu input-append">
+                        <input class="span2" placeholder="URL" type="text" data-edit="createLink"/>
+                        <button class="btn" type="button">Add</button>
+                </div>
+                <a class="btn" data-edit="unlink" title="Remove Hyperlink"><i class="icon-cut"></i></a>
+
+              </div>
+              <div class="btn-group">
+                <a class="btn" data-edit="undo" title="Undo (Ctrl/Cmd+Z)"><i class="icon-undo"></i></a>
+                <a class="btn" data-edit="redo" title="Redo (Ctrl/Cmd+Y)"><i class="icon-repeat"></i></a>
+              </div>
+        </div>
+          
+          <div id="editor">
+             Loading&hellip;
+          </div><br>
+          <button type="button" class="btn btn-success" id='save-button'><span class='glyphicon glyphicon-floppy-disk'></span> Save</button>
+          <button type="button" class="btn btn-default" id='done-button'>Done</button><br>
+      </div>
+      <div class="tab-pane" id="orange">
+          <h1>Enter Clinical Measurement Form Results</h1>
+          <form class="form-horizontal" role="form" id='CMForm'>
+              <div class="form-group">
+                <label for="inputHeight" class="col-sm-2 control-label">Height</label>
+                <div class="col-sm-3">
+                  <input type="number" class="form-control" id="inputHeight" placeholder="Height">
+                </div>
+                <label for="inputWeight" class="col-sm-2 control-label">Weight</label>
+                <div class="col-sm-3">
+                  <input type="number" class="form-control" id="inputWeight" placeholder="Weight">
+                </div>
+              </div>
+              <div class="form-group">
+                <label for="inputBloodType" class="col-sm-2 control-label">Blood Type</label>
+                <div class="col-sm-3">
+                  <input type="text" class="form-control" id="inputBloodType" placeholder="Blood Type">
+                </div>
+                <label for="inputOxygenLevel" class="col-sm-2 control-label">Oxygen Level</label>
+                <div class="col-sm-3">
+                  <input type="text" class="form-control" id="inputOxygenLevel" placeholder="Oxygen Level">
+                </div>
+              </div>
+              <div class="form-group">
+                <label for="inputBloodPressure" class="col-sm-2 control-label">Blood Pressure</label>
+                <div class="col-sm-3">
+                  <input type="text" class="form-control" id="inputBloodPressure" placeholder="Blood Pressure">
+                </div>
+                <label for="inputHeartRate" class="col-sm-2 control-label">Heart Rate</label>
+                <div class="col-sm-3">
+                  <input type="number" class="form-control" id="inputHeartRate" placeholder="Heart Rate">
+                </div>
+              </div>
+              <div class="form-group">
+                <label for="inputLungFunction" class="col-sm-2 control-label">Lung Function</label>
+                <div class="col-sm-3">
+                  <input type="number" class="form-control" id="inputLungFunction" placeholder="Lung Function">
+                </div>
+              </div>
+              <div class="form-group">
+                <div class="col-sm-offset-2 col-sm-10">
+                  <button id='CMFormSubmit' type="submit" class="btn btn-success">Submit</button>
+                </div>
+              </div>
+            </form>
+      </div>
+      <div class="tab-pane" id="yellow">
+          <h1>Documents Section</h1>
+          <div id='upload-new-document'>
+          <h3>Upload New Document</h3>
+          <form class="form-inline" role="form">
+              <div class="form-group">
+                <label for="inputFileName">File Name</label>
+                <input type="text" class="form-control" id="inputFileName" placeholder="Enter file name">
+              </div>
+              <div class="form-group">
+                <label for="inputFileType">Type of Document</label>
+                <select class="form-control" id="inputFileType">
+                  <option>Test Results</option>
+                  <option>Invoice</option>
+                  <option>Other</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <input type="file" id="inputFile">
+              </div>
+              <button id='new-file-submit' type="submit" class="btn btn-success"><span class='glyphicon glyphicon-cloud-upload'></span> Upload</button>
+            </form>
+          </div>
+          
+          <h3>View Uploaded Documents</h3>
+          <form class="form-inline" role="form">
+              <div class="form-group">
+                <label for="inputSearchCriteria">Search Document Name</label>
+                <input type="text" class="form-control" id="inputSearchCriteria" placeholder="Enter search criteria">
+              </div>
+              <div class="form-group">
+                <label for="inputTypeOfDocument">Type of Document</label>
+                <select class="form-control" id="inputTypeOfDocument">
+                  <option>All</option>
+                  <option>Test Results</option>
+                  <option>Invoice</option>
+                  <option>Other</option>
+                </select>
+              </div>
+              <button id='document-filter-submit' type="submit" class="btn btn-success"><span class='glyphicon glyphicon-filter'></span> Filter</button>
+            </form>
+          <table class="table table-bordered table-hover">
+              <thead>
+                <tr>
+                  <th>#</th>
+                  <th>Document Name</th>
+                  <th>File</th>
+                  <th>Document Type</th>
+                  <th>Upload Date/Time</th>
+                </tr>
+              </thead>
+              <tbody id="documents-results-table">
+              </tbody>
+            </table>
+        </table>
+      </div>
+      <div class="tab-pane" id="blue">
+          <h1>Tests Performed</h1>
+          <p>Note: this will affect the payment charged to the patient.</p>
+          <form class="form" role="form" id='tests-form'>
+            </form>
+      </div>
+    </div>
 
 </body>
 

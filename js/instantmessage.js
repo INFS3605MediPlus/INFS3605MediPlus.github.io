@@ -7,10 +7,21 @@ imonload = function(){
         // YOU ARE LOGGED IN
         loadIM();
         document.getElementById("post-im-button").onclick = postIM;
+        $('#post-im-button').tooltip();
+        $('#new-message').keydown(function (event) {
+            var keypressed = event.keyCode || event.which;
+            if (keypressed == 13) {
+                postIM();
+            }
+        });
 
     } else {
         // YOU ARE NOT LOGGED IN
         window.location.href = "index.html";
+    }
+
+    function htmlEncode(value){ 
+      return $('<div/>').text(value).html(); 
     }
     
     function loadIM() {        
@@ -21,7 +32,10 @@ imonload = function(){
         
         pubnub.subscribe({
             channel: 'my_channel',
-            message: function(m){$('#im-messages').append(m + '<br/>')}
+            message: function(m){
+                $('#im-messages').append(htmlEncode(m) + '<br/>');
+                document.getElementById('notification-sound').play();
+            }
          });    
     }
     
