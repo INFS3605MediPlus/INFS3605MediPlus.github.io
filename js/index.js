@@ -6,52 +6,27 @@ indexonload = function(){
     
     if (currentUser) {
         // YOU ARE LOGGED IN
-        $("#login-form").html("");
-        $("#logo-image").attr('src','assets/welcomelogo.png');
+        $("#login-form").html("<h1>Welcome to MediSync!<br>Your cloud based patient management system!</h1>");
 
         $('#calendar').fullCalendar({
             // put your options and callbacks here
-            header: {
-				left: 'prev,next today',
-				center: 'title',
-				right: 'month,basicWeek,basicDay'
-			}, eventLimit: true, weekends: false
+            weekends: false
         });
         
-        var query = (new Parse.Query(Parse.Role));
-        query.equalTo("users", Parse.User.current());
-        query.find().then(function(currentUsersRoles) {
-            var currentUsersRole = currentUsersRoles[0].get('name');
-            
-            var Appointment = Parse.Object.extend("Appointment");
-            var query = new Parse.Query(Appointment);
-            // filter for this particular doctor!
-            if (currentUsersRole == 'Specialist') {
-                query.equalTo("Specialist_ID", currentUser);
+        var Appointment = Parse.Object.extend("Appointment");
+        var query = new Parse.Query(Appointment);
+        // filter query for this particular user
+        query.find({
+            success: function(results){
+                for (var i=0; i<results.length; i++){
+                    var object = results[i];
+                    
+                    // put object into $('#calendar')
+                }          
+            },
+            error: function(error){
+                alert("No Calendar Entries Found");
             }
-            query.equalTo("isCancelled", false);
-            query.include("Patient_ID");
-            query.find({
-                success: function(results){
-                    var source = [];
-                    for (var i=0; i<results.length; i++){
-                        var appt = results[i];
-                        var patient = appt.get("Patient_ID");
-                        event = new Object();
-                        event.title = patient.get('First_Name') + ' ' + patient.get('Last_Name'); // this should be string
-                        event.start = appt.get('Appointment_Date'); // this should be date object
-                        event.end = appt.get('Appointment_Date');
-                        event.url = 'appointment.html?id=' + appt.id;
-
-                        // put object into $('#calendar')
-                        source.push(event);
-                    }
-                    $('#calendar').fullCalendar( 'addEventSource', source )
-                },
-                error: function(error){
-                    alert(error.message);
-                }
-            });
         });
 
     } else {

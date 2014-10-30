@@ -12,43 +12,19 @@ body {
     text-align: left;
 }
 
-.tab-content {
-    text-align: left;
-}
-
-.charts {
-    margin: auto;
-    display: inline-block;
-    width: 49%;
-    height: 500px;
-}
-
-#medicaret {
-    margin: 0;
-}
-
-#new-message{
-    z-index: 1;
-}
-
-#cancel-appt-button {
-    margin-left: 10px;
-}
-
 #login-section {
-    background-image: url("../assets/header_meet_the_dr.jpg");
+    background-image: url("../assets/unsplash_3.jpg");
     width: 100%;
     background-repeat: no-repeat;
     background-size: cover;
 }
 
 #patient-search-section {
-    background-image: url("../assets/light-blue-background.jpg");
+    background: linear-gradient(to bottom, #7db9e8 0%, #2989d8 100%);
     width: 100%;
-
     border: 1px solid;
     border-radius: 25px;
-    margin: 20px auto 20px auto;
+    margin: 20px auto 50px auto;
     background-repeat: no-repeat;
     background-size: cover;
 }
@@ -59,19 +35,12 @@ body {
 }
 
 #searchResultsPatientHeading{
-  text-align: left;
+  color:blue;
+  margin-right:24.3%;
 }
 
 #searchPatientButton{
   margin-left:34.2%;
-}
-
-#searchPatientTable{
-  margin:auto;
-}
-
-#searchPatientTable tbody tr td{
-  padding:10px;
 }
 
 #logo {
@@ -93,6 +62,7 @@ body {
 .login input[type=text]{
 	width: 250px;
 	height: 30px;
+	background: transparent;
 	border: 1px solid rgba(255, 0, 0, 0.6);
 	border-radius: 2px;
 	font-family: 'Exo', sans-serif;
@@ -104,6 +74,7 @@ body {
 .login input[type=password]{
 	width: 250px;
 	height: 30px;
+	background: transparent;
 	border: 1px solid rgba(255, 0, 0, 0.6);
 	border-radius: 2px;
 	font-family: 'Exo', sans-serif;
@@ -151,7 +122,7 @@ body {
 }
 
 #login-form {
-  color: #f96e5b;
+  color: crimson;
 }
 
 #login-form h1 {
@@ -182,7 +153,7 @@ body {
 #cssmenu ul.dropdown-menu {
   background: #333333;
   min-width: 150px;
-  margin-left: -15px;
+  margin-left: -30px;
   max-width: 150px;
 }
 #cssmenu ul.dropdown-menu li {
@@ -272,67 +243,27 @@ body {
 #cssmenu.align-right li:first-child a:after {
   display: none;
 }
-
-#cssmenu.sticky {
-  position: fixed;
-  z-index: 2;
-  width: calc(100% - 50px);
-  top: 0px;
+@media screen and (max-width: 768px) {
+  #cssmenu ul li {
+    float: none;
+    display: block;
+  }
+  #cssmenu ul li a {
+    width: 100%;
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+    border-bottom: 1px solid #fb998c;
+  }
+  #cssmenu ul li.last > a,
+  #cssmenu ul li:last-child > a {
+    border: 0;
+  }
+  #cssmenu ul li a:after {
+    display: none;
+  }
+  #cssmenu ul li a:before {
+    display: none;
+  }
 }
 
-#patient-name {
-    font-size: 3em;
-    text-align: left;
-    margin: 0;
-}
-
-#edit-patient-form {
-    text-align: left;
-}
-
-#apptdate-result {
-    font-size: 1em;
-    text-align: left;
-    margin: 0;
-}
-
-#details {
-    text-align: left;
-    overflow: visible;
-}
-
-#editor {
-    max-height: 300px;
-	height: 300px;
-	background-color: white;
-	border-collapse: separate; 
-	border: 1px solid rgb(204, 204, 204); 
-	padding: 4px; 
-	box-sizing: content-box; 
-	-webkit-box-shadow: rgba(0, 0, 0, 0.0745098) 0px 1px 1px 0px inset; 
-	box-shadow: rgba(0, 0, 0, 0.0745098) 0px 1px 1px 0px inset;
-	border-top-right-radius: 3px; border-bottom-right-radius: 3px;
-	border-bottom-left-radius: 3px; border-top-left-radius: 3px;
-	overflow: scroll;
-	outline: none;
-}
-
-input[type="text"], input[type="password"], input[type="datetime"], input[type="datetime-local"], input[type="date"], input[type="month"], input[type="time"], input[type="week"], input[type="number"], input[type="email"], input[type="url"], input[type="search"], input[type="tel"], input[type="color"] {
-    height: 34px;
-}
-
-.tt-dropdown-menu {
-  width: 100%;
-  margin-top: 12px;
-  padding: 8px 0;
-  cursor: pointer;
-  background-color: #fff;
-  border: 1px solid #ccc;
-  border: 1px solid rgba(0, 0, 0, 0.2);
-  -webkit-border-radius: 8px;
-     -moz-border-radius: 8px;
-          border-radius: 8px;
-  -webkit-box-shadow: 0 5px 10px rgba(0,0,0,.2);
-     -moz-box-shadow: 0 5px 10px rgba(0,0,0,.2);
-          box-shadow: 0 5px 10px rgba(0,0,0,.2);
-}
